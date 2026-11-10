@@ -2,11 +2,10 @@
   "name": "rules",
   "version": "1.0.0",
   "private": true,
-  "description": "学生手册考试题库检索 · Cloudflare Workers / Pages 静态站点",
+  "description": "学生手册考试题库检索 · Cloudflare Pages 静态站点",
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
-    "deploy:pages": "wrangler pages deploy public --project-name=rules"
+    "dev": "wrangler pages dev",
+    "deploy": "wrangler pages deploy --branch=main"
   },
   "devDependencies": {
     "wrangler": "^4.160.0"

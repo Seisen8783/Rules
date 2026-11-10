@@ -1,11 +1,13 @@
 # Rules · 学生手册考试题库检索
 
 纯静态单页应用：对学生手册考试题库（当前 **3357** 条）进行多关键词组合检索。
-部署目标为 **Cloudflare Workers / Pages**。仓库连接 Cloudflare Git 集成后，每次推送到 `main` 分支会自动构建部署，无需手动上传。
+部署目标为 **Cloudflare Pages**。
 
+- 线上地址：`https://rules-567.pages.dev`（国内可达；`*.workers.dev` 在当前网络被拦截，勿用）
 - 仓库地址：`https://github.com/Seisen8783/Rules`
 - 默认分支：`main`（所有变更直接提交到该分支，不开 PR、不建其他分支）
 - 技术栈：原生 HTML / CSS / JavaScript，**无框架、无构建步骤**，`public/` 目录原样作为静态站点发布
+- 发布方式：运行 `npm run deploy` 将 `public/` 上传到 Cloudflare Pages（详见第四节）
 
 ---
 
@@ -17,8 +19,8 @@ Rules/
 │   ├── index.html        # 页面结构 + 全部样式；题库总数显示在 <div class="sub"> 中
 │   ├── data.js           # 题库数据：const LINES = [ "1. …", "2. …", … ];
 │   └── app.js            # 检索逻辑：关键词切分、AND 匹配、转义后高亮渲染
-├── wrangler.toml         # Cloudflare Workers 配置（[assets] directory = "./public"）
-├── package.json          # 脚本：dev / deploy / deploy:pages；依赖仅 wrangler
+├── wrangler.toml         # Cloudflare Pages 配置（pages_build_output_dir = "./public"）
+├── package.json          # 脚本：dev / deploy；依赖仅 wrangler
 ├── package-lock.json     # 锁定依赖版本，必须随 package.json 一起提交
 ├── .gitignore            # 忽略 node_modules/、.wrangler/、dist/、日志等
 └── README.md             # 本规范
@@ -71,7 +73,7 @@ Rules/
 
 ### 4. 部署配置（wrangler.toml）
 
-- `[assets] directory` 必须保持 `"./public"`。
+- `pages_build_output_dir` 必须保持 `"./public"`；`name` 必须保持 `"rules"`（Cloudflare Pages 项目名）。
 - `compatibility_date` 不得晚于当前日期；如需更新，改为当天或更早的日期。
 - 不添加构建命令，保持纯静态部署。
 
@@ -81,7 +83,7 @@ Rules/
 
 ```bash
 npm install                 # 首次或依赖变更后执行
-npm run dev                 # 启动本地 Worker，默认 http://localhost:8787
+npm run dev                 # 启动本地 Pages 预览，默认 http://localhost:8788
 ```
 
 在浏览器中逐项确认：
@@ -90,12 +92,7 @@ npm run dev                 # 启动本地 Worker，默认 http://localhost:8787
 2. 搜索「奖学金」等关键词有命中且关键词黄色高亮；
 3. 多关键词（如「奖学金 国家」）按 AND 逻辑命中；
 4. 回车搜索、清空按钮正常；无结果与空输入有提示文案；
-5. 浏览器控制台无 error / warning；
-6. 最后运行部署预检：
-   ```bash
-   npx wrangler deploy --dry-run
-   ```
-   必须成功读取 assets 且无报错。
+5. 浏览器控制台无 error / warning。
 
 ---
 
@@ -135,7 +132,13 @@ git push origin main
 | `docs:` | 文档变更 | `docs: 更新README更新规范` |
 | `chore:` | 依赖 / 配置维护 | `chore: 升级wrangler至4.x` |
 
-推送后：Cloudflare 自动构建部署（通常 1 分钟内），无需其他操作。
+推送后还须运行发布命令，才会把改动同步到线上（Pages 项目当前为命令行直传，未接 Git 自动部署）：
+
+```bash
+npm run deploy              # 上传 public/ 到 Cloudflare Pages，约 10 秒生效
+```
+
+发布后到 `https://rules-567.pages.dev` 复核。可选：在 Cloudflare 控制台把该 Pages 项目连接到 GitHub 仓库（见第五节），接通后推送 `main` 即自动部署，可不再手动 `npm run deploy`。
 
 ### 禁止事项
 
@@ -146,8 +149,8 @@ git push origin main
 
 ---
 
-## 五、部署方式参考（人工操作）
+## 五、部署方式参考
 
-- **Workers**：Cloudflare 控制台 → Workers & Pages → Create → Worker → Import Git repository → 选择 `Seisen8783/Rules`，构建命令留空，自动识别 `wrangler.toml`。
-- **Pages**：Workers & Pages → Create → Pages → Connect to Git → 选择本仓库；Framework preset = None，Build command 留空，**Build output directory = `public`**。
-- **命令行**（需已 `wrangler login`）：`npm run deploy`（Workers）或 `npm run deploy:pages`（Pages）。
+- **命令行（当前采用）**：需已 `wrangler login`；运行 `npm run deploy` 将 `public/` 上传到 Pages 项目 `rules`，线上地址 `https://rules-567.pages.dev`。
+- **控制台接 Git（可选，实现推送自动部署）**：Workers & Pages → 选中 Pages 项目 `rules` → Settings → Builds & deployments → Connect to Git → 选择 `Seisen8783/Rules`；Framework preset = None，Build command 留空，**Build output directory = `public`**。
+- **为何不用 Workers**：`*.workers.dev` 域名在当前网络被 DNS 污染 / SNI 阻断（打开即空白）；`*.pages.dev` 可达，故采用 Pages。
