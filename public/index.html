@@ -58,6 +58,8 @@ h1{text-align:center;color:var(--title);font-size:26px;margin-bottom:8px;}
 .btn-blue:hover{background:var(--accent-hover);}
 .btn-gray{background:var(--gray-bg);color:var(--gray-text);}
 .btn-gray:hover{background:var(--gray-hover);}
+.btn-theme-float{position:fixed;top:14px;right:14px;z-index:10;padding:7px 11px;border:1px solid var(--border);border-radius:9px;background:var(--gray-bg);color:var(--gray-text);font-size:12.5px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.12);}
+.btn-theme-float:hover{background:var(--gray-hover);}
 .stat{font-size:14px;color:var(--muted);margin-bottom:8px;}
 .result-box{min-height:120px;line-height:1.8;font-size:15.5px;padding:6px 2px;}
 .hit{padding:0 2px;border-radius:3px;background:var(--hit);}
@@ -100,6 +102,7 @@ footer{text-align:center;margin-top:16px;font-size:13px;color:var(--footer);}
 </script>
 </head>
 <body>
+<button class="btn-theme-float" id="btnTheme">🌙深色</button>
 <div class="container">
   <div class="card">
     <h1>📋学生手册考试题库</h1>
@@ -109,7 +112,6 @@ footer{text-align:center;margin-top:16px;font-size:13px;color:var(--footer);}
       <input class="inp" id="inp" placeholder="输入关键词检索题库……">
       <button class="btn btn-blue" id="btnSearch">🔍搜索</button>
       <button class="btn btn-gray" id="btnClear">🗑️清空</button>
-      <button class="btn btn-gray" id="btnTheme">🌙深色</button>
     </div>
     <div class="chips" id="chips"></div>
     <div class="history" id="history"></div>
