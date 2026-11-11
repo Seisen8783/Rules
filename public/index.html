@@ -2,48 +2,100 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="学生手册考试题库在线检索，支持多关键词组合搜索，共 3357 条题目。">
-<title>学生手册考试题库检索</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+<title>学生手册考试题库检索</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg1:#e8f0fc; --bg2:#f0f7ff; --card:#fff; --shadow:rgba(34,102,170,0.12);
+  --text:#1f2d3d; --title:#1f4e80; --sub:#5c7699; --muted:#7a8fa8;
+  --tip-bg:#edf4fc; --tip-text:#33547c; --accent:#2368aa; --accent-hover:#1a548c;
+  --border:#cbd8e8; --inp-bg:#fff; --gray-bg:#e2eaf4; --gray-text:#2c4b70; --gray-hover:#cbd8e8;
+  --item-border:#d4e0ee; --item-hover:#f4f8ff; --copy-tip:#9ab4d0;
+  --chip-bg:#fff; --chip-text:#2c4b70; --hist-bg:#f6f9ff; --hist-text:#33547c; --hist-border:#e2eaf4;
+  --hit:#fff280; --footer:#647c9c;
+}
+[data-theme="dark"]{
+  --bg1:#141821; --bg2:#1b2130; --card:#232a38; --shadow:rgba(0,0,0,0.4);
+  --text:#e6ecf5; --title:#7fb2e6; --sub:#93a6bf; --muted:#8296ad;
+  --tip-bg:#263043; --tip-text:#c3d6ec; --accent:#3d7fc4; --accent-hover:#2f6aa8;
+  --border:#3a4456; --inp-bg:#1c2330; --gray-bg:#2e3848; --gray-text:#c3d6ec; --gray-hover:#3a4456;
+  --item-border:#333e50; --item-hover:#2c3546; --copy-tip:#7d93ad;
+  --chip-bg:#2a3342; --chip-text:#c3d6ec; --hist-bg:#263043; --hist-text:#c3d6ec; --hist-border:#333e50;
+  --hit:rgba(255,210,80,0.28); --footer:#8296ad;
+}
 body{
     min-height:100vh;
-    background:linear-gradient(135deg,#e8f0fc,#f0f7ff);
+    background:linear-gradient(135deg,var(--bg1),var(--bg2));
+    color:var(--text);
     font-family:"Microsoft Yahei",system-ui,sans-serif;
     padding:30px 16px;
 }
 .container{max-width:1020px;margin:0 auto;}
 .card{
-    background:#fff;border-radius:14px;
-    box-shadow:0 4px 16px rgba(34,102,170,0.12);
+    background:var(--card);border-radius:14px;
+    box-shadow:0 4px 16px var(--shadow);
     padding:26px 30px;
 }
-h1{text-align:center;color:#1f4e80;font-size:26px;margin-bottom:8px;}
-.sub{text-align:center;color:#5c7699;font-size:14px;margin-bottom:18px;}
+h1{text-align:center;color:var(--title);font-size:26px;margin-bottom:8px;}
+.sub{text-align:center;color:var(--sub);font-size:14px;margin-bottom:18px;}
 .desc-tip{
-    background:#edf4fc;border-left:4px solid #2368aa;
+    background:var(--tip-bg);border-left:4px solid var(--accent);
     padding:10px 14px;border-radius:8px;font-size:14px;
-    color:#33547c;margin-bottom:16px;line-height:1.6;
+    color:var(--tip-text);margin-bottom:16px;line-height:1.6;
 }
 .search-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
 .inp{
-    flex:1;min-width:240px;padding:13px 15px;font-size:16px;
-    border:1px solid #cbd8e8;border-radius:9px;outline:none;
+    flex:1;min-width:240px;padding:13px 15px;font-size:16px;color:var(--text);
+    background:var(--inp-bg);
+    border:1px solid var(--border);border-radius:9px;outline:none;
 }
-.inp:focus{border-color:#2368aa;box-shadow:0 0 0 3px rgba(35,104,170,0.14);}
+.inp:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(35,104,170,0.14);}
 .btn{padding:13px 22px;border:none;border-radius:9px;font-size:16px;cursor:pointer;}
-.btn-blue{background:#2368aa;color:#fff;}
-.btn-blue:hover{background:#1a548c;}
-.btn-gray{background:#e2eaf4;color:#2c4b70;}
-.btn-gray:hover{background:#cbd8e8;}
-.stat{font-size:14px;color:#7a8fa8;margin-bottom:8px;}
+.btn-blue{background:var(--accent);color:#fff;}
+.btn-blue:hover{background:var(--accent-hover);}
+.btn-gray{background:var(--gray-bg);color:var(--gray-text);}
+.btn-gray:hover{background:var(--gray-hover);}
+.stat{font-size:14px;color:var(--muted);margin-bottom:8px;}
 .result-box{min-height:120px;line-height:1.8;font-size:15.5px;padding:6px 2px;}
-.hit{background:#fff280;padding:0 2px;border-radius:3px;}
-.item{margin-bottom:16px;padding-bottom:12px;border-bottom:1px dashed #d4e0ee;}
-footer{text-align:center;margin-top:16px;font-size:13px;color:#647c9c;}
+.hit{padding:0 2px;border-radius:3px;background:var(--hit);}
+.item{margin-bottom:16px;padding:10px 12px;border-bottom:1px dashed var(--item-border);cursor:pointer;border-radius:8px;}
+.item:hover{background:var(--item-hover);}
+.copy-tip{float:right;font-size:12px;color:var(--copy-tip);margin-left:12px;white-space:nowrap;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+.chip{padding:7px 13px;border:1px solid var(--border);border-radius:20px;background:var(--chip-bg);font-size:13.5px;color:var(--chip-text);cursor:pointer;}
+.chip.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.history{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px;}
+.history:empty{display:none;}
+.hist-label{font-size:13px;color:var(--muted);}
+.hist-item{padding:5px 11px;border:1px solid var(--hist-border);border-radius:16px;background:var(--hist-bg);font-size:13px;color:var(--hist-text);cursor:pointer;}
+.hist-item:hover{background:var(--gray-hover);}
+footer{text-align:center;margin-top:16px;font-size:13px;color:var(--footer);}
+@media(max-width:600px){
+  body{padding:14px 10px;}
+  .card{padding:18px 14px;border-radius:12px;}
+  h1{font-size:21px;}
+  .sub{font-size:13px;}
+  .search-row{gap:8px;}
+  .inp{min-width:100%;padding:12px 14px;font-size:16px;}
+  .btn{flex:1;padding:12px 16px;font-size:15px;}
+  .result-box{font-size:15px;line-height:1.75;}
+  .item{padding:9px 10px;}
+  .chip{font-size:12.5px;padding:6px 11px;}
+}
 </style>
+<script>
+(function(){
+  var t = null;
+  try{ t = localStorage.getItem("tiku_theme_v1"); }catch(e){}
+  if(t !== "dark" && t !== "light"){
+    t = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+  }
+  document.documentElement.setAttribute("data-theme", t);
+})();
+</script>
 </head>
 <body>
 <div class="container">
@@ -55,12 +107,18 @@ footer{text-align:center;margin-top:16px;font-size:13px;color:#647c9c;}
       <input class="inp" id="inp" placeholder="输入关键词检索题库……">
       <button class="btn btn-blue" id="btnSearch">🔍搜索</button>
       <button class="btn btn-gray" id="btnClear">🗑️清空</button>
+      <button class="btn btn-gray" id="btnTheme">🌙深色</button>
     </div>
+    <div class="chips" id="chips"></div>
+    <div class="history" id="history"></div>
     <div class="stat" id="stat">全部题库已加载，等待检索</div>
     <div class="result-box" id="res">请输入关键词开始检索……</div>
   </div>
   <footer>题库来源：学生手册考试题库promaxultra.docx</footer>
 </div>
+
+
+
 <script src="data.js"></script>
 <script src="app.js"></script>
 </body>
