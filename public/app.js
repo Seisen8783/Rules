@@ -3468,8 +3468,12 @@ function doSearch(){
     stat.innerText = catLabel + "命中 0 条";
     return;
   }
-  var kwTxt = f.kws.length ? "，需同时包含：" + f.kws.join("、") : "";
-  stat.innerText = catLabel + "命中 " + f.lines.length + " 条" + kwTxt;
+  if(f.kws.length === 0 && selectedCats.size === 0){
+    stat.innerText = "全部题库 " + LINES.length + " 条（点按条目复制原文）";
+  }else{
+    var kwTxt = f.kws.length ? "，需同时包含：" + f.kws.join("、") : "";
+    stat.innerText = catLabel + "命中 " + f.lines.length + " 条" + kwTxt;
+  }
   renderLines(f.lines, f.kws.length ? f.kws : null);
 }
 
@@ -3574,6 +3578,11 @@ window.doSearch = doSearch;
 window.doClear = doClear;
 document.getElementById("inp").addEventListener("keydown", function(e){
   if(e.key === "Enter") doSearch();
+});
+var searchTimer = null;
+document.getElementById("inp").addEventListener("input", function(){
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(doSearch, 180);
 });
 document.getElementById("btnSearch").addEventListener("click", doSearch);
 document.getElementById("btnClear").addEventListener("click", doClear);
