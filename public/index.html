@@ -8,6 +8,7 @@
 <title>学生手册考试题库检索</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+html,body{overflow-x:hidden;}
 :root{
   --bg1:#e8f0fc; --bg2:#f0f7ff; --card:#fff; --shadow:rgba(34,102,170,0.12);
   --text:#1f2d3d; --title:#1f4e80; --sub:#5c7699; --muted:#7a8fa8;
@@ -58,7 +59,7 @@ h1{text-align:center;color:var(--title);font-size:26px;margin-bottom:8px;}
 .btn-blue:hover{background:var(--accent-hover);}
 .btn-gray{background:var(--gray-bg);color:var(--gray-text);}
 .btn-gray:hover{background:var(--gray-hover);}
-.btn-theme-float{position:fixed;top:14px;right:14px;z-index:10;padding:7px 11px;border:1px solid var(--border);border-radius:9px;background:var(--gray-bg);color:var(--gray-text);font-size:12.5px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.12);}
+.btn-theme-float{position:fixed;top:14px;right:14px;left:auto;z-index:999;padding:7px 11px;border:1px solid var(--border);border-radius:9px;background:var(--gray-bg);color:var(--gray-text);font-size:12.5px;line-height:1.4;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.12);}
 .btn-theme-float:hover{background:var(--gray-hover);}
 .stat{font-size:14px;color:var(--muted);margin-bottom:8px;}
 .result-box{min-height:120px;line-height:1.8;font-size:15.5px;padding:6px 2px;}
