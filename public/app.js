@@ -3528,6 +3528,7 @@ function renderHistory(){
   searchHistory.forEach(function(h){
     html += '<button class="hist-item" data-kw="' + escapeHtml(h) + '">' + escapeHtml(h) + "</button>";
   });
+  html += '<button class="hist-clear" id="histClear">✕清空</button>';
   box.innerHTML = html;
   var btns = box.querySelectorAll(".hist-item");
   Array.prototype.forEach.call(btns, function(b){
@@ -3536,6 +3537,14 @@ function renderHistory(){
       doSearch();
     });
   });
+  var clearBtn = document.getElementById("histClear");
+  if(clearBtn){
+    clearBtn.addEventListener("click", function(){
+      searchHistory = [];
+      try{ localStorage.removeItem(HIST_KEY); }catch(e){}
+      renderHistory();
+    });
+  }
 }
 
 function fallbackCopy(text, done){
